@@ -16,33 +16,55 @@ const CircularProgress = ({ percentage }) => {
   const strokeDashoffset = circumference * (1 - percentage / 100);
 
   return (
-    <svg width="120" height="120" viewBox="0 0 120 120">
+    <svg width="240" height="240" viewBox="0 0 140 140">
+      {/* Background Circle */}
       <circle
-        cx="60"
-        cy="60"
+        cx="70"
+        cy="70"
         r={radius}
-        stroke="#ddd"
-        strokeWidth={strokeWidth}
+        stroke="#F4F4F4"
+        strokeWidth={strokeWidth + 5}
         fill="none"
+        filter="url(#innerShadow)"
       />
+      {/* Progress Circle with Gradient */}
+      <defs>
+        <filter id="innerShadow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="2" />
+          <feOffset dx="3" dy="3" result="offsetblur" />
+          <feFlood floodColor="rgba(0, 0, 0, 0.5)" />
+          <feComposite in2="offsetblur" operator="in" />
+          <feMerge>
+            <feMergeNode />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#A104F4" />
+          <stop offset="100%" stopColor="#EC4EC3" />
+        </linearGradient>
+      </defs>
       <circle
-        cx="60"
-        cy="60"
+        cx="70"
+        cy="70"
         r={radius}
-        stroke="blue"
+        stroke="url(#progressGradient)"
         strokeWidth={strokeWidth}
         fill="none"
         strokeDasharray={circumference}
         strokeDashoffset={strokeDashoffset}
         strokeLinecap="round"
+        // transform="rotate(-90 70 70)"
       />
+      {/* Percentage Text */}
       <text
-        x="60"
-        y="60"
+        x="70"
+        y="70"
         textAnchor="middle"
         dominantBaseline="central"
-        fontSize="16"
+        fontSize="14"
         fontWeight="bold"
+        fill="#333"
       >
         {percentage}%
       </text>
@@ -65,7 +87,7 @@ function App() {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "50px" }}>
       <CircularProgress percentage={percentage} />
-      <p>{progress.currentValue} / {progress.targetValue}</p>
+      {/* <p>{progress.currentValue} / {progress.targetValue}</p> */}
     </div>
   );
 }
