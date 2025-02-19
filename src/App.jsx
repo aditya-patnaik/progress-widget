@@ -85,7 +85,7 @@ function App() {
   );
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "50px" }}>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%" }}>
       <CircularProgress percentage={percentage} />
       {/* <p>{progress.currentValue} / {progress.targetValue}</p> */}
     </div>
